@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { EventCard } from './EventCard'
-import { getEventFeaturesRes } from '@/helper';
+import { getAllEventEntries, getEventFeaturesRes } from '@/helper';
 import { getEntryByUID } from '@/contentstack-sdk';
 
 const FeaturedEvents = () => {
@@ -27,19 +27,18 @@ const FeaturedEvents = () => {
 
     interface FeatureEvent {
         title: string;
-        event_reference: EventsData[];
     };
 
     const [data, setData] = useState<FeatureEvent>({
         title: "",
-        event_reference: []
     });
 
     async function getEventInfo() {
         try {
-            const res = await getEventFeaturesRes();
+            const res = await getAllEventEntries();
+            console.log(res)
             const events = await Promise.all(
-                res.event_reference.map(async (event: EventsData) => {
+                res.map(async (event: EventsData) => {
                     return await getEntryByUID({
                         uid: event.uid,
                         contentTypeUid: 'event'

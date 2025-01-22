@@ -31,6 +31,17 @@ export const getHeroRes = async () => {
     return response[0][0];
 };
 
+export const getAllEventEntries = async () => {
+    const response = await getEntry({
+        contentTypeUid: "event",
+        referenceFieldPath: undefined,
+        jsonRtePath: undefined,
+    });
+    // liveEdit &&
+        // response[0].forEach((entry) => addEditableTags(entry, "page", true));
+    return response[0];
+};
+
 export const getEventFeaturesRes = async () => {
     console.log("Event feature")
     const response = await getEntry({
