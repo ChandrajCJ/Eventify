@@ -109,7 +109,7 @@ const page = () => {
                 {data.ispaid ? `Rs ${data.price}` : "Free"}
               </p>
               <p className="text-muted-foreground">
-                {data.tickets_available} tickets available
+                {data?.tickets_available} Tickets Available
               </p>
             </div>
           </div>
