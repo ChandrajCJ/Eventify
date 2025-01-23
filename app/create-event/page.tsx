@@ -41,9 +41,11 @@ export default function CreateEventPage() {
     endDateTime: new Date(),
     venueName: "",
     address: "",
-    ticketsAvailable: 100,
+    ticketsAvailable: 0,
     isPaid: false,
     bannerImage: "",
+    price:0,
+
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -68,8 +70,8 @@ export default function CreateEventPage() {
       newErrors.address = "Address is required";
     }
 
-    if (formData.ticketsAvailable < 1) {
-      newErrors.ticketsAvailable = "Must have at least 1 ticket available";
+    if (formData.ticketsAvailable < 0) {
+      newErrors.ticketsAvailable = "Tickets available must be a positive number";
     }
 
     if (formData.isPaid && (!formData.price || formData.price <= 0)) {
@@ -109,8 +111,8 @@ export default function CreateEventPage() {
     }
   };
 
-    const entryUrl= usePathname();
-  
+  const entryUrl = usePathname();
+
 
   return (
     <div className="min-h-screen bg-transparent from-background to-muted/20 sm:flex sm:items-center sm:justify-center">
@@ -119,7 +121,7 @@ export default function CreateEventPage() {
           <h1 className="text-4xl font-bold tracking-tight">Create New Event</h1>
           <p className="text-muted-foreground">Fill in the details to create your event</p>
         </div>
-        
+
         <div className="bg-card rounded-xl shadow-lg border p-6 sm:p-8 md:p-10">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div>
@@ -293,8 +295,13 @@ export default function CreateEventPage() {
                 <Input
                   type="number"
                   min={1}
-                  value={formData.ticketsAvailable}
-                  onChange={(e) => setFormData(prev => ({ ...prev, ticketsAvailable: parseInt(e.target.value) }))}
+                  value={formData.ticketsAvailable || ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      ticketsAvailable: e.target.value ? parseInt(e.target.value) : 0,
+                    }))
+                  }
                 />
                 {errors.ticketsAvailable && (
                   <p className="text-sm text-destructive mt-1">{errors.ticketsAvailable}</p>
@@ -321,8 +328,13 @@ export default function CreateEventPage() {
                     type="number"
                     min={0}
                     step="0.01"
-                    value={formData.price}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) }))}
+                    value={formData.price || ""}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        price: e.target.value ? parseFloat(e.target.value) : 0,
+                      }))
+                    }
                   />
                   {errors.price && (
                     <p className="text-sm text-destructive mt-1">{errors.price}</p>

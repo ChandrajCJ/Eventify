@@ -65,3 +65,16 @@ export const getEvent = async (entryUrl) => {
 
     return response[0];
 }
+
+export const getFooterRes = async () => {
+    console.log("getHeaderRes")
+    const response = await getEntry({
+        contentTypeUid: "event_footer",
+        referenceFieldPath: [],
+        jsonRtePath: [],
+    });
+
+    // liveEdit && addEditableTags(response[0][0], "event_navbar", true);
+    console.log(response)
+    return response[0][0];
+};
